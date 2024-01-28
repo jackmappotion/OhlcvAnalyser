@@ -50,7 +50,7 @@ class PriceAnalyser:
         )
 
         return statistical_prices
-    
+
     @staticmethod
     def get_price_rank(prices, price):
         """
@@ -62,3 +62,50 @@ class PriceAnalyser:
             ((len(sorted_purchases) - rank) / len(sorted_purchases)) * 100, 2
         )
         return percentile
+
+    @staticmethod
+    def _get_pressure_indicator(open_price, close_price):
+        pressure_indicator = (close_price - open_price) / open_price * 100 * 3
+        return pressure_indicator
+
+    @staticmethod
+    def get_buying_selling_general_prices(open_price, close_price, volume):
+        pressure_indicator = PriceAnalyser._get_pressure_indicator(
+            open_price, close_price
+        )
+        normalized_volume = PriceAnalyser.get_normalized_series(volume, 10)
+        buying_normalized_volume = (
+            normalized_volume * (100 + pressure_indicator) / 200
+        )
+        selling_normalized_volume = (
+            normalized_volume - buying_normalized_volume
+        )
+        buying_prices = PriceAnalyser.get_general_prices(
+            close_price, buying_normalized_volume
+        )
+        selling_prices = PriceAnalyser.get_general_prices(
+            close_price, selling_normalized_volume
+        )
+        return (buying_prices, selling_prices)
+
+    @staticmethod
+    def get_buying_selling_statistical_prices(
+        open_price, close_price, high_price, low_price, volume
+    ):
+        pressure_indicator = PriceAnalyser._get_pressure_indicator(
+            open_price, close_price
+        )
+        normalized_volume = PriceAnalyser.get_normalized_series(volume, 10)
+        buying_normalized_volume = (
+            normalized_volume * (100 + pressure_indicator) / 200
+        )
+        selling_normalized_volume = (
+            normalized_volume - buying_normalized_volume
+        )
+        buying_prices = PriceAnalyser.get_statistical_prices(
+            high_price, low_price, buying_normalized_volume
+        )
+        selling_prices = PriceAnalyser.get_statistical_prices(
+            high_price, low_price, selling_normalized_volume
+        )
+        return (buying_prices, selling_prices)
