@@ -1,4 +1,7 @@
 # OhlcvAnalyser
+General **[open high low close volume]** analyser
+
+
 
 ## Current Repository Structure
 
