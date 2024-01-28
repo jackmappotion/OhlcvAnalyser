@@ -50,8 +50,9 @@ class PriceAnalyser:
         )
 
         return statistical_prices
-
-    def get_price_rank(self, prices, price):
+    
+    @staticmethod
+    def get_price_rank(prices, price):
         """
         price upper n%
         """
