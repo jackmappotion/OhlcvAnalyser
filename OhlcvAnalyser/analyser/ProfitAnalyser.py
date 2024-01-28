@@ -7,34 +7,38 @@ class ProfitAnalyser:
     def calc_pct(value):
         return round(value * 100, 3)
 
-    def get_start_end_profit(self, price_series):
+    @staticmethod
+    def get_start_end_profit(price_series):
         """
         (start,end) Profit Calculator
         """
         buying_price = price_series.iloc[0]
         selling_price = price_series.iloc[-1]
         profit = (selling_price - buying_price) / buying_price
-        return self.calc_pct(profit)
+        return ProfitAnalyser.calc_pct(profit)
 
-    def get_start_max_profit(self, price_series):
+    @staticmethod
+    def get_start_max_profit(price_series):
         """
         (start, max) Max Profit Calculator
         """
         buying_price = price_series.iloc[0]
         max_price = price_series.max()
         max_profit = (max_price - buying_price) / buying_price
-        return self.calc_pct(max_profit)
+        return ProfitAnalyser.calc_pct(max_profit)
 
-    def get_start_min_profit(self, price_series):
+    @staticmethod
+    def get_start_min_profit(price_series):
         """
         (start, min) Min Profit Calculator
         """
         buying_price = price_series.iloc[0]
         min_price = price_series.min()
         min_profit = (min_price - buying_price) / buying_price
-        return self.calc_pct(min_profit)
+        return ProfitAnalyser.calc_pct(min_profit)
 
-    def get_statistical_price_series(self, high_series, low_series):
+    @staticmethod
+    def get_statistical_price_series(high_series, low_series):
         """
         (high, low) based Noramlized distribution assumption
         """
