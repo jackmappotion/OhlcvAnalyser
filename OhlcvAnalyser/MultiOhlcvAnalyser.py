@@ -2,6 +2,7 @@ import pandas as pd
 
 from .analyser import CoefficientAnalyser
 from .analyser import ProfitAnalyser
+from .analyser import VarianceAnalyser
 from .utils import filter_date
 
 
@@ -67,11 +68,11 @@ class MultiOhlcvAnalyser:
         """
         (open - close) variance
         """
-        ohlcv = self.ohlcv.copy()
-        ohlcv["oc_change"] = (ohlcv["open"] - ohlcv["close"]) / ohlcv["open"]
-        groupby_code = self._get_groupby_code(ohlcv, start, end)
+        groupby_code = self._get_groupby_code(self.ohlcv, start, end)
         oc_variance_series = groupby_code.apply(
-            lambda x: x["oc_change"].var()
+            lambda x: VarianceAnalyser.get_normalized_diff_variance(
+                x["open"], x["close"]
+            )
         ).rename("oc_variance")
         return oc_variance_series
 
@@ -79,11 +80,11 @@ class MultiOhlcvAnalyser:
         """
         (high - low) variance
         """
-        ohlcv = self.ohlcv.copy()
-        ohlcv["hl_change"] = (ohlcv["high"] - ohlcv["low"]) / ohlcv["low"]
-        groupby_code = self._get_groupby_code(ohlcv, start, end)
+        groupby_code = self._get_groupby_code(self.ohlcv, start, end)
         hl_variance_series = groupby_code.apply(
-            lambda x: x["hl_change"].var()
+            lambda x: VarianceAnalyser.get_normalized_diff_variance(
+                x["high"], x["low"]
+            )
         ).rename("hl_variance")
         return hl_variance_series
 
