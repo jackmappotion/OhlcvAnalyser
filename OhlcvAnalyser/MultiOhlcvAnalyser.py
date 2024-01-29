@@ -63,6 +63,13 @@ class MultiOhlcvAnalyser:
             lambda x: CoefficientAnalyser.get_normalized_coefficient(x[arg])
         ).rename(f"{arg}_normalized_coef")
         return normalized_coef_series
+    
+    def coef_score(self,arg,start=None,end=None):
+        groupby_code = self._get_groupby_code(self.ohlcv, start, end)
+        coef_score_series = groupby_code.apply(
+            lambda x : CoefficientAnalyser.get_coefficient_score(x[arg])
+        ).rename(f"{arg}_coef_score")
+        return coef_score_series
 
     def oc_variance(self, start=None, end=None):
         """
