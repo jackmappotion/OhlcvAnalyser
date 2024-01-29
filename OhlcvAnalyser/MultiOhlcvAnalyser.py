@@ -1,8 +1,6 @@
 import pandas as pd
 
-from .analyser import CoefficientAnalyser
-from .analyser import ProfitAnalyser
-from .analyser import VarianceAnalyser
+from .analyser import CoefficientAnalyser,ProfitAnalyser, VarianceAnalyser
 from .utils import filter_date
 
 
