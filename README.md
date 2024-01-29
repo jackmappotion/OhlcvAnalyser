@@ -10,23 +10,15 @@ OhlcvAnalyser
 ├── __init__.py
 ├── MultiOhlcvAnalyser.py
 ├── SingleOhlcvAnalyser.py
+├── analyser
+│   ├── __init__.py
+│   ├── CoefficientAnalyser.py
+│   ├── PriceAnalyser.py
+│   ├── ProfitAnalyser.py
+│   └── VarianceAnalyser.py
 └── utils
     ├── __init__.py
-    ├── coefficient.py
-    ├── date.py
-    └── profit.py
-```
+    └── date.py
 
-## BluePrint Repository Structure
-
-```
-OhlcvAnalyser
-├── __init__.py
-├── MultiOhlcvAnalyser.py
-├── SingleOhlcvAnalyser.py
-├── Analyser
-│   ├── CoefficientAnalyser.py
-│   ├── ProfitAnalyser.py
-│   └── PriceAnalyser.py
-└── utils
+3 directories, 10 files
 ```
