@@ -64,7 +64,7 @@ class MultiOhlcvAnalyser:
         ).rename(f"{arg}_normalized_coef")
         return normalized_coef_series
 
-    def oc_variance(self, start, end):
+    def oc_variance(self, start=None, end=None):
         """
         (open - close) variance
         """
@@ -76,7 +76,7 @@ class MultiOhlcvAnalyser:
         ).rename("oc_variance")
         return oc_variance_series
 
-    def hl_variance(self, start, end):
+    def hl_variance(self, start=None, end=None):
         """
         (high - low) variance
         """
@@ -88,7 +88,7 @@ class MultiOhlcvAnalyser:
         ).rename("hl_variance")
         return hl_variance_series
 
-    def profit(self, start, end):
+    def profit(self, start=None, end=None):
         ohlcv = self.ohlcv.copy()
         groupby_code = self._get_groupby_code(ohlcv, start, end)
         profit_series = groupby_code.apply(
