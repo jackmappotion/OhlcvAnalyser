@@ -63,8 +63,15 @@ class MultiOhlcvAnalyser:
             lambda x: CoefficientAnalyser.get_normalized_coefficient(x[arg])
         ).rename(f"{arg}_normalized_coef")
         return normalized_coef_series
+    
+    def coef_score(self,arg,start=None,end=None):
+        groupby_code = self._get_groupby_code(self.ohlcv, start, end)
+        coef_score_series = groupby_code.apply(
+            lambda x : CoefficientAnalyser.get_coefficient_score(x[arg])
+        ).rename(f"{arg}_coef_score")
+        return coef_score_series
 
-    def oc_variance(self, start, end):
+    def oc_variance(self, start=None, end=None):
         """
         (open - close) variance
         """
@@ -76,7 +83,7 @@ class MultiOhlcvAnalyser:
         ).rename("oc_variance")
         return oc_variance_series
 
-    def hl_variance(self, start, end):
+    def hl_variance(self, start=None, end=None):
         """
         (high - low) variance
         """
@@ -88,10 +95,10 @@ class MultiOhlcvAnalyser:
         ).rename("hl_variance")
         return hl_variance_series
 
-    def profit(self, start, end):
+    def profit(self, arg="close", start=None, end=None):
         ohlcv = self.ohlcv.copy()
         groupby_code = self._get_groupby_code(ohlcv, start, end)
         profit_series = groupby_code.apply(
-            lambda x: ProfitAnalyser.get_start_end_profit(x)
+            lambda x: ProfitAnalyser.get_start_end_profit(x[arg])
         ).rename("profit")
         return profit_series
