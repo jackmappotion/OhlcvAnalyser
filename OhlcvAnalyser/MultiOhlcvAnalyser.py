@@ -88,10 +88,10 @@ class MultiOhlcvAnalyser:
         ).rename("hl_variance")
         return hl_variance_series
 
-    def profit(self, start=None, end=None):
+    def profit(self, arg="close", start=None, end=None):
         ohlcv = self.ohlcv.copy()
         groupby_code = self._get_groupby_code(ohlcv, start, end)
         profit_series = groupby_code.apply(
-            lambda x: ProfitAnalyser.get_start_end_profit(x)
+            lambda x: ProfitAnalyser.get_start_end_profit(x[arg])
         ).rename("profit")
         return profit_series
