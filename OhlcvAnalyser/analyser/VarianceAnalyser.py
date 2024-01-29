@@ -4,61 +4,29 @@ class VarianceAnalyser:
         return series.var()
 
     @staticmethod
-    def get_open_close_diff(open_series, close_series):
-        open_close_diff = open_series - close_series
-        return open_close_diff
+    def get_diff_series(a_series, b_series):
+        diff_series = a_series - b_series
+        return diff_series
 
     @staticmethod
-    def get_open_close_variance(open_series, close_series):
-        open_close_diff = VarianceAnalyser.get_open_close_diff(
-            open_series, close_series
+    def get_diff_variance(a_series, b_series):
+        diff_series = VarianceAnalyser.get_diff_series(a_series, b_series)
+        diff_variance = VarianceAnalyser.get_variance(diff_series)
+        return diff_variance
+
+    @staticmethod
+    def get_normalized_diff_series(a_series, b_series):
+        normalized_diff_series = (
+            VarianceAnalyser.get_diff_series(a_series, b_series) / a_series
         )
-        open_close_variance = VarianceAnalyser.get_variance(open_close_diff)
-        return open_close_variance
+        return normalized_diff_series
 
     @staticmethod
-    def get_normalized_open_close_diff(open_series, close_series):
-        normalized_open_close_diff = (open_series - close_series) / open_series
-        return normalized_open_close_diff
-
-    @staticmethod
-    def get_noramlized_open_close_variance(open_series, close_series):
-        normalized_open_close_diff = (
-            VarianceAnalyser.get_normalized_open_close_diff(
-                open_series, close_series
-            )
+    def get_normalized_diff_variance(a_series, b_series):
+        normalized_diff_series = VarianceAnalyser.get_normalized_diff_series(
+            a_series, b_series
         )
-        normalized_open_close_variance = VarianceAnalyser.get_variance(
-            normalized_open_close_diff
+        normalized_variance = VarianceAnalyser.get_variance(
+            normalized_diff_series
         )
-        return normalized_open_close_variance
-
-    @staticmethod
-    def get_high_low_diff(high_series, low_series):
-        high_low_diff = high_series - low_series
-        return high_low_diff
-
-    @staticmethod
-    def get_high_low_variance(high_series, low_series):
-        high_low_diff = VarianceAnalyser.get_high_low_diff(
-            high_series, low_series
-        )
-        high_low_variance = VarianceAnalyser.get_variance(high_low_diff)
-        return high_low_variance
-
-    @staticmethod
-    def get_normalized_high_low_diff(high_series, low_series):
-        normalized_high_low_diff = (high_series - low_series) / high_series
-        return normalized_high_low_diff
-
-    @staticmethod
-    def get_normalized_high_low_variance(high_series, low_series):
-        normalized_high_low_diff = (
-            VarianceAnalyser.get_normalized_high_low_diff(
-                high_series, low_series
-            )
-        )
-        normalized_high_low_variance = VarianceAnalyser.get_variance(
-            normalized_high_low_diff
-        )
-        return normalized_high_low_variance
+        return normalized_variance
