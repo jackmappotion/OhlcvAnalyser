@@ -1,2 +1,2 @@
 from .MultiOhlcvAnalyser import MultiOhlcvAnalyser
-# from SingleOhlcvAnalyser import SingleOhlcvAnalyser
+from .SingleOhlcvAnalyser import SingleOhlcvAnalyser
