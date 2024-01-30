@@ -28,9 +28,9 @@ class SingleOhlcvAnalyser:
         )
         return info_df
 
-    @staticmethod
-    def get_price_rank_series(ohlcv, start, end, price):
-        filtered_ohlcv = filter_date(ohlcv, start, end)
+
+    def get_price_rank_series(self, start, end, price):
+        filtered_ohlcv = filter_date(self.ohlcv, start, end)
         statistical_prices = PriceAnalyser.get_statistical_prices(
             filtered_ohlcv["high"],
             filtered_ohlcv["low"],
@@ -50,9 +50,8 @@ class SingleOhlcvAnalyser:
         )
         return price_rank_series
 
-    @staticmethod
-    def get_coefficient_series(ohlcv, arg, start, end):
-        filtered_ohlcv = filter_date(ohlcv, start, end)
+    def get_coefficient_series(self, arg, start, end):
+        filtered_ohlcv = filter_date(self.ohlcv, start, end)
         coefficient_series = pd.Series(
             {
                 "start_date": start.strftime("%Y-%m-%d"),
