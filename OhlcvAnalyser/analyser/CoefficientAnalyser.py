@@ -29,24 +29,3 @@ class CoefficientAnalyser:
             normalized_series
         )
         return normalized_coefficient
-
-    @staticmethod
-    def get_statistical_price_series(high_series, low_series):
-        """
-        (high, low) based Noramlized distribution assumption
-        """
-        mean_series = ((high_series + low_series) / 2).rename("mean")
-        var_series = ((high_series - low_series) / 4).rename("var")
-
-        def get_value_based_on_normal_dist_assumption(mean, var):
-            return np.random.normal(mean, var, 1)[0]
-
-        statistical_price_series = pd.concat(
-            [mean_series, var_series], axis=1
-        ).apply(
-            lambda x: get_value_based_on_normal_dist_assumption(
-                x["mean"], x["var"]
-            ),
-            axis=1,
-        )
-        return statistical_price_series
