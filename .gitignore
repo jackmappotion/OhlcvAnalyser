@@ -5,6 +5,7 @@ blueprint/
 
 # Jupyter Notebook
 *.ipynb
+!example.ipynb
 *.ipynb_checkpoints/
 
 # Python
