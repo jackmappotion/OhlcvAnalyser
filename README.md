@@ -25,16 +25,16 @@ from OhlcvAnalyser.plotter import Plotter
 ## Examples
 
 ### Info
-![image](./README_ASSETS/00_multi_info.png)
+![image](https://raw.githubusercontent.com/jackmappotion/OhlcvAnalyser/main/README_ASSETS/00_multi_info.png)
 
 ### Price analysis
-![image](./README_ASSETS/01_price_analyser.png)
+![image](https://raw.githubusercontent.com/jackmappotion/OhlcvAnalyser/main/README_ASSETS/01_price_analyser.png)
 
 ### Coefficient analysis
-![image](./README_ASSETS/02_coefficient_analyser.png)
+![image](https://raw.githubusercontent.com/jackmappotion/OhlcvAnalyser/main/README_ASSETS/02_coefficient_analyser.png)
 
 ### RegressionPlot
-![image](./README_ASSETS/03_regression_plotter.png)
+![image](https://raw.githubusercontent.com/jackmappotion/OhlcvAnalyser/main/README_ASSETS/03_regression_plotter.png)
 
 ### OhlcvPlot
-![image](./README_ASSETS/04_ohlcv_plotter.png)
+![image](https://raw.githubusercontent.com/jackmappotion/OhlcvAnalyser/main/README_ASSETS/04_ohlcv_plotter.png)
