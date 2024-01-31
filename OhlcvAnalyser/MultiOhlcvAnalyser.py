@@ -1,21 +1,54 @@
+from typing import Union
+from datetime import datetime
 import pandas as pd
 
-from .analyser import CoefficientAnalyser,ProfitAnalyser, VarianceAnalyser
+from .analyser import CoefficientAnalyser, ProfitAnalyser, VarianceAnalyser
 from .utils import filter_date
 
 
 class MultiOhlcvAnalyser:
-    def __init__(self, multi_ohlcv) -> None:
+    def __init__(self, multi_ohlcv: pd.DataFrame) -> None:
+        """
+        Initialize the MultiOhlcvAnalyser class.
+
+        Parameters:
+        - multi_ohlcv (pd.DataFrame): The multi-ohlcv data.
+
+        Returns:
+        None
+        """
         self.ohlcv = multi_ohlcv.copy()
 
     @staticmethod
-    def _get_groupby_code(ohlcv, start, end):
+    def _get_groupby_code(ohlcv: pd.DataFrame, start: str, end: str):
+        """
+        Get the groupby object of the ohlcv data based on the code column.
+
+        Parameters:
+        - ohlcv (pd.DataFrame): The ohlcv data.
+        - start (str): The start date.
+        - end (str): The end date.
+
+        Returns:
+        pd.core.groupby.generic.DataFrameGroupBy: The groupby object.
+        """
         groupby_ohlcv = filter_date(ohlcv, start, end).groupby("code")
         return groupby_ohlcv
 
-    def info(self, start=None, end=None):
+    def info(
+        self,
+        start: Union[str, datetime] = None,
+        end: Union[str, datetime] = None,
+    ) -> pd.DataFrame:
         """
-        General Information
+        Get general information about the multi-ohlcv data.
+
+        Parameters:
+        - start (Union[str, datetime]): The start date. Default is None.
+        - end (Union[str, datetime]): The end date. Default is None.
+
+        Returns:
+        pd.DataFrame: The information dataframe.
         """
         ohlcv = filter_date(self.ohlcv, start, end)
         groupby_code = self._get_groupby_code(ohlcv, start, end)
@@ -42,9 +75,22 @@ class MultiOhlcvAnalyser:
         )
         return info_df
 
-    def coef(self, arg, start=None, end=None):
+    def coef(
+        self,
+        arg: str,
+        start: Union[str, datetime] = None,
+        end: Union[str, datetime] = None,
+    ) -> pd.Series:
         """
-        Series : coefficient
+        Get the coefficient series for a given argument.
+
+        Parameters:
+        - arg (str): The argument to calculate the coefficient.
+        - start (Union[str, datetime]): The start date. Default is None.
+        - end (Union[str, datetime]): The end date. Default is None.
+
+        Returns:
+        pd.Series: The coefficient series.
         """
         groupby_code = self._get_groupby_code(self.ohlcv, start, end)
         coef_series = groupby_code.apply(
@@ -52,26 +98,66 @@ class MultiOhlcvAnalyser:
         ).rename(f"{arg}_coef")
         return coef_series
 
-    def normalized_coef(self, arg, start=None, end=None):
+    def normalized_coef(
+        self,
+        arg: str,
+        start: Union[str, datetime] = None,
+        end: Union[str, datetime] = None,
+    ) -> pd.Series:
         """
-        Series / Series.mean() : coefficient
+        Get the normalized coefficient series for a given argument.
+
+        Parameters:
+        - arg (str): The argument to calculate the normalized coefficient.
+        - start (Union[str, datetime]): The start date. Default is None.
+        - end (Union[str, datetime]): The end date. Default is None.
+
+        Returns:
+        pd.Series: The normalized coefficient series.
         """
         groupby_code = self._get_groupby_code(self.ohlcv, start, end)
         normalized_coef_series = groupby_code.apply(
             lambda x: CoefficientAnalyser.get_normalized_coefficient(x[arg])
         ).rename(f"{arg}_normalized_coef")
         return normalized_coef_series
-    
-    def coef_score(self,arg,start=None,end=None):
+
+    def coef_score(
+        self,
+        arg: str,
+        start: Union[str, datetime] = None,
+        end: Union[str, datetime] = None,
+    ) -> pd.Series:
+        """
+        Get the coefficient score series for a given argument.
+
+        Parameters:
+        - arg (str): The argument to calculate the coefficient score.
+        - start (Union[str, datetime]): The start date. Default is None.
+        - end (Union[str, datetime]): The end date. Default is None.
+
+        Returns:
+        pd.Series: The coefficient score series.
+        """
         groupby_code = self._get_groupby_code(self.ohlcv, start, end)
         coef_score_series = groupby_code.apply(
-            lambda x : CoefficientAnalyser.get_coefficient_score(x[arg])
+            lambda x: CoefficientAnalyser.get_coefficient_score(x[arg])
         ).rename(f"{arg}_coef_score")
         return coef_score_series
 
-    def oc_variance(self, start=None, end=None):
+    def oc_variance(
+        self,
+        start: Union[str, datetime] = None,
+        end: Union[str, datetime] = None,
+    ) -> pd.Series:
         """
-        (open - close) variance
+        Get the (open - close) variance series.
+
+        Parameters:
+        - start (Union[str, datetime]): The start date. Default is None.
+        - end (Union[str, datetime]): The end date. Default is None.
+
+        Returns:
+        pd.Series: The (open - close) variance series.
         """
         groupby_code = self._get_groupby_code(self.ohlcv, start, end)
         oc_variance_series = groupby_code.apply(
@@ -81,9 +167,20 @@ class MultiOhlcvAnalyser:
         ).rename("oc_variance")
         return oc_variance_series
 
-    def hl_variance(self, start=None, end=None):
+    def hl_variance(
+        self,
+        start: Union[str, datetime] = None,
+        end: Union[str, datetime] = None,
+    ) -> pd.Series:
         """
-        (high - low) variance
+        Get the (high - low) variance series.
+
+        Parameters:
+        - start (Union[str, datetime]): The start date. Default is None.
+        - end (Union[str, datetime]): The end date. Default is None.
+
+        Returns:
+        pd.Series: The (high - low) variance series.
         """
         groupby_code = self._get_groupby_code(self.ohlcv, start, end)
         hl_variance_series = groupby_code.apply(
@@ -93,7 +190,23 @@ class MultiOhlcvAnalyser:
         ).rename("hl_variance")
         return hl_variance_series
 
-    def profit(self, arg="close", start=None, end=None):
+    def profit(
+        self,
+        arg: str = "close",
+        start: Union[str, datetime] = None,
+        end: Union[str, datetime] = None,
+    ) -> pd.Series:
+        """
+        Get the profit series for a given argument.
+
+        Parameters:
+        - arg (str): The argument to calculate the profit. Default is "close".
+        - start (Union[str, datetime]): The start date. Default is None.
+        - end (Union[str, datetime]): The end date. Default is None.
+
+        Returns:
+        pd.Series: The profit series.
+        """
         ohlcv = self.ohlcv.copy()
         groupby_code = self._get_groupby_code(ohlcv, start, end)
         profit_series = groupby_code.apply(
